@@ -55,9 +55,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+# # CORS
+# CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all in dev, restrict in production
+# CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if not DEBUG else []
+
 # CORS
-CORS_ALLOW_ALL_ORIGINS = DEBUG  # Allow all in dev, restrict in production
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if not DEBUG else []
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.getenv(
+        "CORS_ALLOWED_ORIGINS",
+        "http://localhost:5173"
+    ).split(",")
+    if origin.strip()
+]
 
 # Security (only enforce in production)
 if not DEBUG:

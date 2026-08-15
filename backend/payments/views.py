@@ -66,7 +66,7 @@ def create_payment(request):
 
         intent = stripe.PaymentIntent.create(
             amount=int(order.total * 100),
-            currency='usd',
+            currency='inr',
             receipt_email=receipt_email,
             metadata={
                 'order_id': order.id,
@@ -82,7 +82,7 @@ def create_payment(request):
                 'order': order,
                 'stripe_client_secret': intent['client_secret'],
                 'amount': order.total,
-                'currency': 'usd',
+                'currency': 'inr',
                 'receipt_email': receipt_email,
                 'status': 'created',
                 'metadata': {'intent_created': True}
@@ -95,7 +95,7 @@ def create_payment(request):
             'client_secret': intent['client_secret'],
             'payment_intent_id': intent['id'],
             'amount': order.total,
-            'currency': 'usd',
+            'currency': 'inr',
             'status': intent['status']
         })
 
@@ -140,8 +140,7 @@ def confirm_payment(request):
             charge_id = intent.latest_charge
             payment.mark_succeeded(charge_id)
             _update_order_status(payment.order, 'confirmed', 'payment_confirmed')
-            # ✅ Send confirmation email after successful card payment
-            _send_order_confirmation_email(payment.order)
+ 
             serializer = PaymentSerializer(payment)
             return Response(serializer.data)
 

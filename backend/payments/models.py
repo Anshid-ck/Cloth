@@ -8,7 +8,7 @@ class Payment(models.Model):
     STATUS_CHOICES = (
         ('created', 'Created'),
         ('attempted', 'Attempted'),
-        ('paid', 'Paid'),
+        ('succeeded', 'Succeeded'),
         ('failed', 'Failed'),
         ('refunded', 'Refunded'),
         ('requires_action', 'Requires Action'),
